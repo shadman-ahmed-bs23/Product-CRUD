@@ -13,8 +13,6 @@
     $price = $_POST['price'];
     $date = date('Y-m-d H:i:s');
 
-    
-
     if(!$title) {
       $errors[] = 'Product title is required';
     }
@@ -70,6 +68,7 @@
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
+
       <form action="" method="post">
         <div class="form-group">
           <label for="image">Product Image</label>
