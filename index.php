@@ -2,7 +2,7 @@
   $pdo = new PDO('mysql:host=localhost;port=3306;dbname=products_crud', 'root', '');
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $statement = $pdo->prepare('SELECT * FROM products ORDER BY create_date DESC');
+  $statement = $pdo->prepare('SELECT * FROM products ORDER BY create_date DESC');
   $statement->execute();
   $products = $statement->fetchAll(PDO::FETCH_ASSOC);
   // echo '<pre>';
@@ -48,13 +48,18 @@
           <?php foreach($products as $i => $product): ?>
             <tr>
               <td><?php echo $i+1 ?></td>
-              <td></td>
+              <td>
+                <img src="<?php echo $product['image'] ?>"  class="thumb-image" alt="Img not founds">
+              </td>
               <td><?php echo $product['title'] ?></td>
               <td><?php echo $product['price'] ?></td>
               <td><?php echo $product['create_date'] ?></td>
               <td>
-                <button class="btn btn-sm btn-outline-primary">Edit</button>
-                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                <a href="update.php?id=<?php echo $product['id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a>
+                <form style="display: inline-block" action="delete.php" method="post">
+                  <input type="hidden" name="id" value="<?php echo $product['id'] ?> ">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
               </td>
             </tr>
           <?php endforeach; ?>
