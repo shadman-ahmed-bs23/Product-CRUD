@@ -1,7 +1,10 @@
 <?php 
   $pdo = new PDO('mysql:host=localhost;port=3306;dbname=products_crud', 'root', '');
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  
+  // echo '<pre>';
+  // var_dump($_FILES);
+  // echo '</pre>';
+
   $errors = [];
 
   $title = '';
@@ -19,24 +22,45 @@
     if(!$price) {
       $errors[] = 'Product price is required';
     }
+
+    if(!is_dir('images')) {
+      mkdir('images');
+    }
     if(empty($errors)) {
 
       $image = $_FILES['image'] ?? null;
+      $imagePath = '';
 
-      if($image) {
-        move_uploaded_file($image['tmp_name'], $image['name']);
+      if($image && $image['tmp_name']) {
+        $imagePath = 'images/'.randomString(8).'/'.$image['name'];
+        mkdir(dirname($imagePath));
+
+        move_uploaded_file($image['tmp_name'], $imagePath);
       }
 
 
       $statement = $pdo->prepare("INSERT INTO products (title, image, description, price, create_date)
                     VALUES (:title, :image, :description, :price, :date)");
       $statement->bindValue(':title', $title);
-      $statement->bindValue(':image', '');
+      $statement->bindValue(':image', $imagePath);
       $statement->bindValue(':description', $description);
       $statement->bindValue(':price', $price);
       $statement->bindValue(':date', $date);
       $statement->execute();
+
+      header('Location: index.php');
     }
+  }
+
+  function randomString ($n) 
+  {
+    $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $str = '';
+    for($i = 1; $i < $n; $i++) {
+      $index = rand(0, strlen($characters) - 1); 
+      $str .= $characters[$index];
+    }
+    return $str;
   }
 ?>
 
@@ -69,7 +93,7 @@
         </div>
       <?php endif; ?>
 
-      <form action="" method="post">
+      <form action="" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="image">Product Image</label>
           <br>
