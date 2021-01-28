@@ -1,7 +1,15 @@
 <?php 
-  $pdo = new PDO('mysql:host=localhost;port=3306;dbname=products_crud', 'root', '');
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  // echo '<pre>';
+  $servername = 'localhost';
+  $user = 'root';
+  $password = 'bT4sM2h8SuBV&@2a';
+  $dbname = 'products_crud';
+
+  //Set DSN
+  $dsn = 'mysql:host='. $host . ';dbname='. $dbname;
+
+  //Create a pdo instance
+  $pdo = new PDO($dsn, $user, $password);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  // echo '<pre>';
   // var_dump($_FILES);
   // echo '</pre>';
 
@@ -88,7 +96,8 @@
         <div class="alert alert-danger">
           <?php 
             foreach($errors as $error): ?>
-              <div><?php echo $error ?></div>
+              <div>
+              <?php echo $error ?></div>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
