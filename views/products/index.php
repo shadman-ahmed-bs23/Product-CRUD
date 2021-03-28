@@ -2,7 +2,8 @@
 
 <p>
     <a href="/products/create" type="button" class="btn btn-sm btn-success">Add
-        Product</a>
+        Product
+    </a>
 </p>
 <form action="" method="get">
     <div class="input-group mb-3">
@@ -30,8 +31,8 @@
             <th scope="row"><?php echo $i + 1 ?></th>
             <td>
                 <?php if ($product['image']): ?>
-                <img src="/<?php echo $product['image']
-    ?>" alt="<?php echo $product['title'] ?>" class="product-img">
+                <img src="/<?php echo $product['image'] ?>"
+                    alt="<?php echo $product['title'] ?>" class="product-img">
                 <?php endif;?>
             </td>
             <td><?php echo $product['title'] ?></td>
